@@ -1,0 +1,74 @@
+# Déploie le Worker du formulaire de contact (dossier worker/) sur Cloudflare,
+# puis inscrit son adresse dans le formulaire de index.html.
+# Secrets du dépôt requis : CLOUDFLARE_API_TOKEN (modèle « Edit Cloudflare Workers ») et CLOUDFLARE_ACCOUNT_ID.
+name: Déployer le Worker de contact
+
+on:
+  push:
+    paths:
+      - "worker/**"
+      - ".github/workflows/deploy-worker.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-worker
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash # active pipefail : un échec de wrangler n'est pas masqué par tee
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Vérifier le jeton Cloudflare
+        env:
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          # Un copier-coller laisse souvent un espace ou un retour à la ligne : on les retire.
+          token="$(printf '%s' "$TOKEN" | tr -d '[:space:]')"
+          account="$(printf '%s' "$ACCOUNT" | tr -d '[:space:]')"
+          if [ -z "$token" ] || [ -z "$account" ]; then
+            echo "::error::Secrets manquants : ajoutez CLOUDFLARE_API_TOKEN et CLOUDFLARE_ACCOUNT_ID (Settings → Secrets and variables → Actions)."
+            exit 1
+          fi
+          echo "::add-mask::$token"
+          # Jeton d'utilisateur ou jeton de compte : on essaie les deux vérifications.
+          ok=""
+          for url in "https://api.cloudflare.com/client/v4/user/tokens/verify" "https://api.cloudflare.com/client/v4/accounts/$account/tokens/verify"; do
+            if curl -fsS -H "Authorization: Bearer $token" "$url" 2>/dev/null | grep -q '"status":"active"'; then ok=1; break; fi
+          done
+          if [ -z "$ok" ]; then
+            echo "::error::Cloudflare refuse CLOUDFLARE_API_TOKEN (jeton invalide, expiré ou désactivé). Créez un jeton avec le modèle « Edit Cloudflare Workers », copiez la valeur affichée une seule fois après « Create Token » (pas l'ID du jeton ni la Global API Key), puis remplacez le secret."
+            exit 1
+          fi
+          echo "Jeton Cloudflare valide."
+          echo "CLOUDFLARE_API_TOKEN=$token" >> "$GITHUB_ENV"
+          echo "CLOUDFLARE_ACCOUNT_ID=$account" >> "$GITHUB_ENV"
+
+      - name: Déployer sur Cloudflare
+        working-directory: worker
+        run: npx --yes wrangler@4.139.0 deploy 2>&1 | tee "$RUNNER_TEMP/deploy.log"
+
+      - name: Brancher le formulaire sur le Worker
+        run: |
+          url="$(grep -oE 'https://[a-zA-Z0-9.-]+\.workers\.dev' "$RUNNER_TEMP/deploy.log" | head -n1)"
+          if [ -z "$url" ]; then echo "::error::Adresse workers.dev introuvable. Ouvrez une fois « Workers & Pages » dans le tableau de bord Cloudflare pour choisir votre sous-domaine, puis relancez."; exit 1; fi
+          endpoint="${url%/}/contact"
+          echo "Worker déployé : $endpoint" >> "$GITHUB_STEP_SUMMARY"
+          sed -i -E "s#data-endpoint=\"[^\"]*\"#data-endpoint=\"$endpoint\"#" index.html
+          if git diff --quiet; then echo "Formulaire déjà branché sur $endpoint."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Brancher le formulaire de contact sur $endpoint"
+          git push
