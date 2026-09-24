@@ -1,0 +1,13 @@
+# Worker qui reçoit le formulaire de contact et range chaque demande dans R2.
+# Déploiement : cd worker && npx wrangler deploy
+name = "nzassa-contact"
+main = "src/index.js"
+compatibility_date = "2025-09-01"
+
+[[r2_buckets]]
+binding = "DEMANDES"
+bucket_name = "nzassa-contact"
+
+[vars]
+# Origines autorisées à envoyer le formulaire (séparées par des virgules).
+ALLOWED_ORIGINS = "https://jeemake.github.io,http://localhost:8000,http://127.0.0.1:8000"
