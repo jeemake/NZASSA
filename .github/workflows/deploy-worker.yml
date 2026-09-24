@@ -20,6 +20,9 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash # active pipefail : un échec de wrangler n'est pas masqué par tee
     steps:
       - uses: actions/checkout@v4
 
