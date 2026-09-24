@@ -1,0 +1,57 @@
+# Déploie le Worker du formulaire de contact (dossier worker/) sur Cloudflare,
+# puis inscrit son adresse dans le formulaire de index.html.
+# Secrets du dépôt requis : CLOUDFLARE_API_TOKEN (modèle « Edit Cloudflare Workers ») et CLOUDFLARE_ACCOUNT_ID.
+name: Déployer le Worker de contact
+
+on:
+  push:
+    paths:
+      - "worker/**"
+      - ".github/workflows/deploy-worker.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-worker
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      HAS_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
+    steps:
+      - name: Vérifier les secrets
+        if: env.HAS_TOKEN != 'true'
+        run: |
+          echo "::error::Ajoutez les secrets CLOUDFLARE_API_TOKEN et CLOUDFLARE_ACCOUNT_ID (Settings → Secrets and variables → Actions), puis relancez ce workflow."
+          exit 1
+
+      - uses: actions/checkout@v4
+
+      - name: Déployer sur Cloudflare
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: worker
+          wranglerVersion: "4.139.0"
+
+      - name: Brancher le formulaire sur le Worker
+        env:
+          DEPLOY_URL: ${{ steps.deploy.outputs.deployment-url }}
+          DEPLOY_OUTPUT: ${{ steps.deploy.outputs.command-output }}
+        run: |
+          url="${DEPLOY_URL:-$(printf '%s' "$DEPLOY_OUTPUT" | grep -oE 'https://[a-zA-Z0-9.-]+\.workers\.dev' | head -n1)}"
+          if [ -z "$url" ]; then echo "::error::Adresse du Worker introuvable dans la sortie de wrangler."; exit 1; fi
+          endpoint="${url%/}/contact"
+          echo "Worker déployé : $endpoint" >> "$GITHUB_STEP_SUMMARY"
+          sed -i -E "s#data-endpoint=\"[^\"]*\"#data-endpoint=\"$endpoint\"#" index.html
+          if git diff --quiet; then echo "Formulaire déjà branché sur $endpoint."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -am "Brancher le formulaire de contact sur $endpoint"
+          git push

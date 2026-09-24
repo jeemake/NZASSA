@@ -136,7 +136,7 @@ header.scrolled{border-bottom-color:var(--filet)}
 .patch{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:var(--couture);width:100%;height:100%;transition:transform .8s var(--ease)}
 .pc{position:relative;overflow:hidden;border-radius:18px;background-color:var(--c,var(--sable));
   transition:background-color .9s var(--ease),border-radius .9s var(--ease);
-  animation:assemble 1.3s var(--ease) both,respire var(--resp,7s) ease-in-out infinite;animation-delay:var(--d,0s),calc(var(--d,0s) + 1.3s)}
+  animation:assemble 1.3s var(--ease) backwards,respire var(--resp,7s) ease-in-out infinite;animation-delay:var(--d,0s),calc(var(--d,0s) + 1.3s)}
 @keyframes respire{0%,100%{translate:0 0}50%{translate:0 var(--amp,-6px)}}
 .pc img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 1.2s var(--ease);animation:ken-burns 16s ease-in-out infinite alternate}
 @keyframes ken-burns{from{scale:1}to{scale:1.1}}
@@ -146,11 +146,11 @@ header.scrolled{border-bottom-color:var(--filet)}
 @keyframes assemble{from{transform:translate(var(--dx,0),var(--dy,0)) rotate(var(--r,0deg)) scale(.86)}to{transform:none}}
 .pc.a{grid-area:1/1/3/3;border-radius:100% 18px 18px 18px}
 .pc.b{grid-area:1/3/2/4;--c:var(--terre)}
-.pc.c{grid-area:1/4/2/5;background:url("motifs/motif-kita-pastel.svg") 0 0/60px auto;animation-name:assemble,respire,tissu;animation-duration:1.3s,var(--resp,7s),24s;animation-timing-function:var(--ease),ease-in-out,linear;animation-iteration-count:1,infinite,infinite;animation-fill-mode:both,none,none}
+.pc.c{grid-area:1/4/2/5;background:url("motifs/motif-kita-pastel.svg") 0 0/60px auto;animation-name:assemble,respire,tissu;animation-duration:1.3s,var(--resp,7s),24s;animation-timing-function:var(--ease),ease-in-out,linear;animation-iteration-count:1,infinite,infinite;animation-fill-mode:backwards,none,none}
 @keyframes tissu{to{background-position:120px 60px}}
 .pc.d{grid-area:2/3/3/5}
 .pc.e{grid-area:3/1/4/2;--c:var(--citron);border-radius:18px 18px 18px 100%}
-.pc.f{grid-area:3/2/4/3;background:url("motifs/motif-patchwork-banco.svg") 0 0/50px auto;animation-name:assemble,respire,tissu;animation-duration:1.3s,var(--resp,7s),18s;animation-timing-function:var(--ease),ease-in-out,linear;animation-iteration-count:1,infinite,infinite;animation-fill-mode:both,none,none;animation-direction:normal,normal,reverse}
+.pc.f{grid-area:3/2/4/3;background:url("motifs/motif-patchwork-banco.svg") 0 0/50px auto;animation-name:assemble,respire,tissu;animation-duration:1.3s,var(--resp,7s),18s;animation-timing-function:var(--ease),ease-in-out,linear;animation-iteration-count:1,infinite,infinite;animation-fill-mode:backwards,none,none;animation-direction:normal,normal,reverse}
 .pc.g{grid-area:3/3/5/5;border-radius:18px 18px 100% 18px}
 .pc.h{grid-area:4/1/5/3;--c:var(--banco);display:flex;flex-direction:column;justify-content:space-between;padding:clamp(12px,2vw,20px)}
 .pc.h b{font-family:var(--display);color:var(--blanc);font-size:clamp(.9rem,1.6vw,1.15rem);line-height:1.15}
@@ -163,6 +163,16 @@ header.scrolled{border-bottom-color:var(--filet)}
 .stage .lueur{position:absolute;inset:0;border-radius:18px;pointer-events:none;z-index:2;opacity:0;transition:opacity .5s;
   background:radial-gradient(circle 220px at var(--sx,50%) var(--sy,50%),rgba(255,255,255,.28),transparent 70%);mix-blend-mode:soft-light}
 .stage:hover .lueur{opacity:1}
+/* pièces à attraper : on tire l'une, les autres suivent comme des tissus cousus */
+@media (prefers-reduced-motion:no-preference){
+  .pc{cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+  .pc img{pointer-events:none;-webkit-user-drag:none}
+  .pc.tenue{cursor:grabbing;z-index:5;box-shadow:0 26px 50px -22px rgba(23,48,42,.6)}
+  .stage.tire{cursor:grabbing}
+}
+.astuce{position:absolute;left:0;right:0;bottom:-44px;text-align:center;font-family:var(--mono);font-size:.72rem;color:var(--encre-2);transition:opacity .6s}
+.stage.tire .astuce,.stage.vu .astuce{opacity:0}
+@media (prefers-reduced-motion:reduce){.astuce{display:none}}
 @keyframes tourne{to{transform:rotate(360deg)}}
 
 /* bandeau défilant */
@@ -405,6 +415,7 @@ footer .bas{margin-top:48px;padding-top:20px;border-top:1px solid rgba(255,255,2
         <div class="pc g"><img src="img/03-concierge.jpg" alt="Concierge N’ZASSA à l’accueil d’une résidence"></div>
         <div class="pc h"><b>Plusieurs tissus, un seul pagne.</b><small>N’ZASSA · depuis Abidjan</small></div>
       </div>
+      <p class="astuce" aria-hidden="true">↔ Attrapez une pièce : tout le pagne suit.</p>
     </div>
   </div>
 </section>
@@ -648,6 +659,7 @@ footer .bas{margin-top:48px;padding-top:20px;border-top:1px solid rgba(255,255,2
     };
     const relance = () => { if (!anim) anim = requestAnimationFrame(boucle); };
     hero.addEventListener("pointermove", e => {
+      if (stage.classList.contains("tire")) return;
       const r = hero.getBoundingClientRect();
       cible.x = (e.clientX - r.left) / r.width - .5; cible.y = (e.clientY - r.top) / r.height - .5;
       const st = stage.getBoundingClientRect();
@@ -662,6 +674,80 @@ footer .bas{margin-top:48px;padding-top:20px;border-top:1px solid rgba(255,255,2
         b.style.translate = `${(e.clientX - r.left - r.width / 2) * .25}px ${(e.clientY - r.top - r.height / 2) * .35}px`;
       });
       b.addEventListener("pointerleave", () => { b.style.translate = ""; });
+    });
+  }
+
+  // Pagne vivant : on attrape une pièce, les autres suivent comme si elles étaient cousues ensemble,
+  // celles qui sont sur le chemin se font bousculer, et tout revient en place avec un rebond au lâcher.
+  if (!reduit) {
+    const RAPPEL = .04, COUTURE = .12, POUSSEE = .12, AMORTI = .84;
+    const etat = pieces.map(() => ({ x: 0, y: 0, vx: 0, vy: 0, cx: 0, cy: 0, R: 0 }));
+    let poids = [], tenue = -1, prise = null, dernier = null, boucleP = 0, pret = false;
+    setTimeout(() => { pret = true; }, 2200); // on laisse les pièces finir de s'assembler
+    imgs.forEach(img => { img.draggable = false; });
+
+    // Position de repos de chaque pièce et force des coutures (plus fortes entre voisines)
+    const mesurer = () => {
+      pieces.forEach((p, i) => {
+        const r = p.getBoundingClientRect(), a = etat[i];
+        a.cx = r.left + r.width / 2 - a.x; a.cy = r.top + r.height / 2 - a.y; a.R = Math.min(r.width, r.height) * .45;
+      });
+      const cellule = patch.getBoundingClientRect().width / 4;
+      poids = etat.map(a => etat.map(b => Math.exp(-Math.hypot(a.cx - b.cx, a.cy - b.cy) / cellule)));
+    };
+    const elastique = (v, L) => Math.sign(v) * L * (1 - Math.exp(-Math.abs(v) / L));
+
+    const pas = () => {
+      let bouge = tenue >= 0;
+      etat.forEach((a, i) => {
+        if (i === tenue) { a.vx *= .8; a.vy *= .8; return; }
+        let fx = -RAPPEL * a.x, fy = -RAPPEL * a.y;
+        etat.forEach((b, j) => {
+          if (j === i) return;
+          fx += COUTURE * poids[i][j] * (b.x - a.x); fy += COUTURE * poids[i][j] * (b.y - a.y);
+          const dx = a.cx + a.x - b.cx - b.x, dy = a.cy + a.y - b.cy - b.y, d = Math.hypot(dx, dy) || 1, chevauche = a.R + b.R - d;
+          if (chevauche > 0) { fx += dx / d * chevauche * POUSSEE; fy += dy / d * chevauche * POUSSEE; }
+        });
+        a.vx = (a.vx + fx) * AMORTI; a.vy = (a.vy + fy) * AMORTI;
+        a.x += a.vx; a.y += a.vy;
+        if (Math.abs(a.x) + Math.abs(a.y) + Math.abs(a.vx) + Math.abs(a.vy) > .08) bouge = true;
+      });
+      pieces.forEach((p, i) => {
+        const a = etat[i], rot = Math.max(-14, Math.min(14, a.vx * .9 + a.x * .025));
+        p.style.transform = bouge ? `translate(${a.x.toFixed(1)}px, ${a.y.toFixed(1)}px) rotate(${rot.toFixed(2)}deg)${i === tenue ? " scale(1.05)" : ""}` : "";
+      });
+      if (bouge) boucleP = requestAnimationFrame(pas);
+      else { boucleP = 0; etat.forEach(a => { a.x = a.y = a.vx = a.vy = 0; }); }
+    };
+
+    pieces.forEach((p, i) => {
+      p.addEventListener("pointerdown", e => {
+        if (!pret || tenue >= 0 || (e.pointerType === "mouse" && e.button !== 0)) return;
+        mesurer();
+        tenue = i;
+        prise = { x: e.clientX - etat[i].x, y: e.clientY - etat[i].y };
+        dernier = { x: e.clientX, y: e.clientY, t: e.timeStamp };
+        p.setPointerCapture(e.pointerId);
+        p.classList.add("tenue"); stage.classList.add("tire", "vu");
+        if (!boucleP) boucleP = requestAnimationFrame(pas);
+      });
+      p.addEventListener("pointermove", e => {
+        if (tenue !== i) return;
+        const a = etat[i], L = patch.getBoundingClientRect().width * .45;
+        a.x = elastique(e.clientX - prise.x, L); a.y = elastique(e.clientY - prise.y, L);
+        const dt = Math.max(8, e.timeStamp - dernier.t) / 16.7; // vitesse en px par image, pour le lancer
+        a.vx = Math.max(-40, Math.min(40, (e.clientX - dernier.x) / dt)); a.vy = Math.max(-40, Math.min(40, (e.clientY - dernier.y) / dt));
+        dernier = { x: e.clientX, y: e.clientY, t: e.timeStamp };
+      });
+      const lacher = () => {
+        if (tenue !== i) return;
+        tenue = -1;
+        p.classList.remove("tenue"); stage.classList.remove("tire");
+        if (!boucleP) boucleP = requestAnimationFrame(pas);
+      };
+      p.addEventListener("pointerup", lacher);
+      p.addEventListener("pointercancel", lacher);
+      p.addEventListener("lostpointercapture", lacher);
     });
   }
 
