@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<title>N’ZASSA Properties</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="N’ZASSA Properties — gestion locative, gestion immobilière, syndic de copropriété et conciergerie à Abidjan. Habiter autrement, gérer autrement.">
+<meta name="theme-color" content="#1E4A3D">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --banco:#1E4A3D; --banco-2:#173B31; --sauge:#3B6C5B; --citron:#CFDD7F; --sable:#F3EEE4; --papier:#FAF8F3;
+  --terre:#DDA184; --lagune:#9EBBCB; --lavande:#ABA5CF;
+  --encre:#17302A; --encre-2:#55665F; --filet:#DDD5C7; --blanc:#FFFFFF;
+  --display:"Plus Jakarta Sans","Century Gothic",system-ui,sans-serif;
+  --texte:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --wrap:1180px; --gap:clamp(16px,3vw,28px); --couture:8px;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--papier);color:var(--encre);font-family:var(--texte);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--citron);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-inline:clamp(16px,4vw,40px)}
+h1,h2,h3{font-family:var(--display);color:var(--banco);margin:0;text-wrap:balance;letter-spacing:-.03em}
+h1{font-size:clamp(2.6rem,6.2vw,5.2rem);font-weight:800;line-height:.98}
+h2{font-size:clamp(2rem,4.2vw,3.4rem);font-weight:800;line-height:1.02}
+h3{font-size:1.25rem;font-weight:700;letter-spacing:-.01em;line-height:1.25}
+p{margin:0;max-width:62ch;color:var(--encre-2)}
+.lead{font-size:clamp(1.05rem,1.6vw,1.25rem);color:var(--encre);line-height:1.5}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--banco)}
+.eyebrow::before{content:"";width:14px;height:14px;background:var(--citron);border-radius:100% 0 0 0;flex:none}
+.on-dark .eyebrow{color:var(--blanc)}
+section{padding-block:clamp(64px,9vw,120px)}
+
+/* logo */
+.logo{display:inline-flex;align-items:center;gap:.55em;font-size:15px;text-decoration:none;--p1:var(--citron);--p2:var(--banco);--p3:var(--banco);--p4:var(--banco);--wm:var(--banco)}
+.logo svg{width:1.9em;height:1.9em;flex:none;overflow:visible}
+.logo .wm{display:flex;flex-direction:column;line-height:1}
+.logo .nz{font-family:var(--display);font-weight:800;font-size:1.3em;letter-spacing:-.035em;color:var(--wm)}
+.logo .prop{font-family:var(--display);font-weight:500;font-size:.33em;letter-spacing:.42em;color:var(--wm);margin-top:.35em;padding-left:.1em}
+.logo.blanc{--p1:#fff;--p2:#fff;--p3:#fff;--p4:#fff;--wm:#fff}
+.logo path{transition:transform .5s var(--ease)}
+.logo:hover path:nth-child(1){transform:translate(-3px,-3px)}
+.logo:hover path:nth-child(2){transform:translate(3px,-3px)}
+.logo:hover path:nth-child(3){transform:translate(-3px,3px)}
+.logo:hover path:nth-child(4){transform:translate(3px,3px)}
+
+/* boutons */
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:.95rem;text-decoration:none;border-radius:0 18px 0 18px;padding:14px 22px;border:0;cursor:pointer;transition:transform .3s var(--ease),background .3s,color .3s}
+.btn:hover{transform:translateY(-2px)}
+.btn.plein{background:var(--banco);color:var(--blanc)}
+.btn.plein:hover{background:var(--banco-2)}
+.btn.clair{background:transparent;color:var(--banco);box-shadow:inset 0 0 0 1.5px var(--banco)}
+.btn.citron{background:var(--citron);color:var(--banco)}
+.btn .fl{transition:transform .3s var(--ease)}
+.btn:hover .fl{transform:translateX(4px)}
+
+/* en-tête */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(250,248,243,.86);backdrop-filter:saturate(1.2) blur(12px);-webkit-backdrop-filter:saturate(1.2) blur(12px);border-bottom:1px solid transparent;transition:border-color .3s}
+header.scrolled{border-bottom-color:var(--filet)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:20px;height:72px}
+.nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0;font-family:var(--display);font-weight:600;font-size:.92rem}
+.nav ul a{text-decoration:none;color:var(--encre);position:relative;padding-block:6px}
+.nav ul a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--citron);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease)}
+.nav ul a:hover::after,.nav ul a.actif::after{transform:scaleX(1)}
+.burger{display:none;background:none;border:0;padding:8px;cursor:pointer}
+.burger span{display:block;width:24px;height:2px;background:var(--banco);margin:5px 0;transition:transform .3s,opacity .3s}
+@media (max-width:900px){
+  .nav ul{position:absolute;left:0;right:0;top:72px;flex-direction:column;gap:0;background:var(--papier);border-bottom:1px solid var(--filet);padding:8px clamp(16px,4vw,40px) 20px;transform:translateY(-8px);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}
+  .nav ul li a{display:block;padding:12px 0}
+  .nav.ouvert ul{opacity:1;transform:none;pointer-events:auto}
+  .nav .btn{display:none}
+  .burger{display:block}
+  .nav.ouvert .burger span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav.ouvert .burger span:nth-child(2){opacity:0}
+  .nav.ouvert .burger span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+}
+
+/* héros */
+.hero{padding-block:clamp(40px,6vw,80px) clamp(56px,7vw,96px)}
+.hero .grid{display:grid;grid-template-columns:1fr 1.05fr;gap:clamp(32px,5vw,72px);align-items:center}
+.hero .txt{display:flex;flex-direction:column;gap:26px}
+.hero h1 .l{display:block;overflow:hidden}
+.hero h1 .l span{display:inline-block;animation:monte .9s var(--ease) both}
+.hero h1 .l:nth-child(2) span{animation-delay:.12s}
+.hero h1 .l:nth-child(3) span{animation-delay:.24s;color:var(--sauge)}
+.hero h1 .l:nth-child(4) span{animation-delay:.36s;color:var(--sauge)}
+.surligne{background:linear-gradient(transparent 62%,var(--citron) 62% 92%,transparent 92%) no-repeat 0 0/0% 100%;animation:surligne .9s .9s var(--ease) forwards}
+@keyframes monte{from{transform:translateY(105%)}to{transform:none}}
+@keyframes surligne{to{background-size:100% 100%}}
+.hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
+.hero .note{font-family:var(--mono);font-size:.78rem;color:var(--encre-2);display:flex;gap:18px;flex-wrap:wrap}
+.hero .note b{color:var(--banco);font-weight:500}
+
+.stage{position:relative;aspect-ratio:1;max-width:560px;width:100%;justify-self:end}
+.patch{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:var(--couture);width:100%;height:100%;transition:transform .8s var(--ease)}
+.pc{position:relative;overflow:hidden;border-radius:18px;background:var(--c,var(--sable));animation:assemble 1.3s var(--ease) both;animation-delay:var(--d,0s)}
+.pc img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 1.2s var(--ease)}
+.pc:hover img{transform:scale(1.14)}
+@keyframes assemble{from{transform:translate(var(--dx,0),var(--dy,0)) rotate(var(--r,0deg)) scale(.86)}to{transform:none}}
+.pc.a{grid-area:1/1/3/3;border-radius:100% 18px 18px 18px}
+.pc.b{grid-area:1/3/2/4;--c:var(--terre)}
+.pc.c{grid-area:1/4/2/5;background:url("motifs/motif-kita-pastel.svg") 0 0/60px auto}
+.pc.d{grid-area:2/3/3/5}
+.pc.e{grid-area:3/1/4/2;--c:var(--citron);border-radius:18px 18px 18px 100%}
+.pc.f{grid-area:3/2/4/3;background:url("motifs/motif-patchwork-banco.svg") 0 0/50px auto}
+.pc.g{grid-area:3/3/5/5;border-radius:18px 18px 100% 18px}
+.pc.h{grid-area:4/1/5/3;--c:var(--banco);display:flex;flex-direction:column;justify-content:space-between;padding:clamp(12px,2vw,20px)}
+.pc.h b{font-family:var(--display);color:var(--blanc);font-size:clamp(.9rem,1.6vw,1.15rem);line-height:1.15}
+.pc.h small{font-family:var(--mono);color:var(--citron);font-size:.72rem;letter-spacing:.04em}
+.pc.b span{position:absolute;inset:auto 12px 10px 12px;font-family:var(--display);font-weight:700;font-size:.78rem;color:var(--banco)}
+.stage .fil{position:absolute;inset:-14px;border:1.5px dashed var(--filet);border-radius:28px;pointer-events:none;animation:tourne 60s linear infinite}
+@keyframes tourne{to{transform:rotate(360deg)}}
+
+/* bandeau défilant */
+.bande{background:var(--banco);color:var(--blanc);overflow:hidden;padding-block:18px;border-block:var(--couture) solid var(--papier)}
+.bande .rail{display:flex;width:max-content;animation:defile 38s linear infinite}
+.bande .rail:hover{animation-play-state:paused}
+.bande .it{display:flex;align-items:center;gap:22px;padding-right:22px;font-family:var(--display);font-weight:700;font-size:clamp(1.2rem,2.4vw,1.9rem);letter-spacing:-.02em;white-space:nowrap}
+.bande .it i{width:.8em;height:.8em;display:block;background:var(--c)}
+@keyframes defile{to{transform:translateX(-50%)}}
+
+/* révélations au défilement (l'élément reste visible, seul le mouvement est animé) */
+.rv{transition:transform .9s var(--ease)}
+.js .rv:not(.in){transform:translateY(28px)}
+
+/* services */
+.services .tete{display:grid;grid-template-columns:1.2fr 1fr;gap:var(--gap);align-items:end;margin-bottom:clamp(32px,5vw,56px)}
+.cartes{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--couture)}
+.carte{background:var(--c);border-radius:22px;padding:26px 24px 24px;display:flex;flex-direction:column;gap:14px;min-height:360px;position:relative;overflow:hidden;transition:transform .5s var(--ease),border-radius .5s var(--ease)}
+.carte:hover{transform:translateY(-6px);border-radius:22px 60px 22px 22px}
+.carte .piece{width:52px;height:52px;background:var(--banco);transition:transform .6s var(--ease)}
+.carte:hover .piece{transform:rotate(90deg) scale(1.08)}
+.carte h3{margin-top:6px}
+.carte p{color:var(--banco);opacity:.85;font-size:.95rem}
+.carte ul{margin:auto 0 0;padding:14px 0 0;list-style:none;border-top:1px solid rgba(30,74,61,.18);display:grid;gap:6px;font-size:.88rem;color:var(--banco)}
+.carte li{display:flex;gap:8px;align-items:baseline}
+.carte li::before{content:"";width:6px;height:6px;border-radius:2px;background:var(--banco);flex:none;transform:translateY(-2px)}
+.carte .code{position:absolute;right:20px;top:24px;font-family:var(--mono);font-size:.7rem;color:var(--banco);opacity:.6}
+
+/* manifeste */
+.manifeste{background:var(--banco);color:var(--blanc);position:relative;overflow:hidden}
+.manifeste .fond{position:absolute;inset:0;background:url("motifs/motif-claustra-sobre.svg") 0 0/88px auto;opacity:.9;animation:derive 70s linear infinite}
+@keyframes derive{to{background-position:880px 440px}}
+.manifeste .wrap{position:relative}
+.manifeste h2{color:var(--blanc)}
+.manifeste h2 em{font-style:normal;color:var(--citron)}
+.manifeste .grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(32px,6vw,80px);align-items:center}
+.manifeste p{color:rgba(255,255,255,.82)}
+.manifeste .lead{color:var(--blanc)}
+.manifeste .col{display:flex;flex-direction:column;gap:22px}
+.pagne{border-radius:22px 90px 22px 22px;overflow:hidden;aspect-ratio:4/5;position:relative}
+.pagne img{width:100%;height:115%;object-fit:cover;will-change:transform}
+.pagne figcaption{position:absolute;left:0;bottom:0;background:var(--banco);font-family:var(--display);font-size:.8rem;padding:10px 16px;letter-spacing:.04em;color:var(--blanc)}
+.def{border-top:1px solid rgba(255,255,255,.2);padding-top:18px;display:grid;grid-template-columns:auto 1fr;gap:6px 18px;align-items:baseline;margin:0}
+.def dt{font-family:var(--display);font-weight:800;font-size:1.25rem;color:var(--citron)}
+.def dd{margin:0;font-size:.92rem;color:rgba(255,255,255,.75)}
+.equation{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--couture);margin-top:clamp(48px,7vw,80px)}
+.equation div{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:0 26px 0 0;padding:24px;display:flex;flex-direction:column;gap:10px;backdrop-filter:blur(2px)}
+.equation .k{font-family:var(--mono);font-size:.75rem;color:var(--citron)}
+.equation h3{color:var(--blanc);font-size:1.1rem}
+.equation p{font-size:.9rem}
+.anecdote{margin-top:var(--couture);background:var(--citron);color:var(--banco);border-radius:0 0 0 26px;padding:24px 28px;display:grid;grid-template-columns:auto 1fr;gap:10px 28px;align-items:baseline}
+.anecdote b{font-family:var(--display);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase}
+.anecdote span{font-family:var(--display);font-weight:700;font-size:clamp(1.05rem,1.8vw,1.35rem);line-height:1.3}
+
+/* clé en main */
+.parcours .tete{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:end}
+.etapes{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-top:clamp(40px,6vw,64px);list-style:none;padding:0}
+.etapes svg.couture{position:absolute;left:0;top:26px;width:100%;height:4px;overflow:visible}
+.etapes .trace{stroke:var(--banco);stroke-width:2;stroke-dasharray:6 7;fill:none}
+.etapes .masque{stroke:var(--papier);stroke-width:6;fill:none}
+.etape{position:relative;display:flex;flex-direction:column;gap:12px}
+.etape .n{width:54px;height:54px;border-radius:16px 16px 16px 4px;background:var(--papier);box-shadow:inset 0 0 0 2px var(--banco);display:grid;place-items:center;font-family:var(--display);font-weight:800;color:var(--banco);transition:background .5s,color .5s,transform .5s var(--ease)}
+.etape.fait .n{background:var(--banco);color:var(--citron);transform:rotate(-6deg)}
+.etape h3{font-size:1.05rem}
+.etape p{font-size:.9rem}
+.cle-img{margin-top:clamp(40px,6vw,64px);display:grid;grid-template-columns:1.4fr 1fr;gap:var(--couture);border-radius:22px;overflow:hidden}
+.cle-img img{width:100%;height:100%;object-fit:cover;aspect-ratio:16/9}
+.cle-img .txt{background:var(--sable);padding:clamp(24px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:16px}
+.cle-img .txt b{font-family:var(--display);font-weight:800;font-size:clamp(1.5rem,3vw,2.3rem);letter-spacing:-.03em;color:var(--banco);line-height:1.05}
+
+/* application */
+.appli{background:var(--sable)}
+.appli .grid{display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(24px,5vw,64px);align-items:center}
+.appli .col{display:flex;flex-direction:column;gap:20px}
+.feats{display:grid;gap:14px;margin:0;padding:0;list-style:none}
+.feats li{display:grid;grid-template-columns:36px 1fr;gap:14px;align-items:start}
+.feats i{width:36px;height:36px;border-radius:10px;background:var(--c);display:block}
+.feats b{display:block;font-family:var(--display);color:var(--banco)}
+.feats span{font-size:.92rem;color:var(--encre-2)}
+.phone{width:300px;max-width:100%;aspect-ratio:9/18.5;background:#10231D;border-radius:44px;padding:10px;box-shadow:0 40px 80px -30px rgba(30,74,61,.55);position:relative;animation:flotte 7s ease-in-out infinite}
+@keyframes flotte{50%{transform:translateY(-10px)}}
+.screen{background:var(--papier);border-radius:36px;height:100%;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.screen .top{background:var(--banco) url("motifs/motif-couture-sobre.svg") 0 0/28px auto;padding:30px 18px 18px;display:flex;flex-direction:column;gap:12px}
+.screen .top .logo{font-size:10px}
+.screen .hi{font-family:var(--display);color:var(--blanc);font-weight:700}
+.solde{background:var(--citron);border-radius:14px;padding:12px 14px;font-family:var(--display);color:var(--banco)}
+.solde small{display:block;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+.solde b{font-size:1.35rem;font-weight:800;font-variant-numeric:tabular-nums}
+.tickets{padding:14px;display:flex;flex-direction:column;gap:8px}
+.tk{background:var(--blanc);border:1px solid #ECE5D8;border-radius:12px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;gap:8px;transition:transform .4s var(--ease),box-shadow .4s}
+.tk.bouge{transform:scale(1.03);box-shadow:0 8px 20px -10px rgba(30,74,61,.4)}
+.tk b{display:block;font-family:var(--display);font-size:.8rem;color:var(--banco)}
+.tk span{font-size:.7rem;color:var(--encre-2)}
+.chip{font-family:var(--display);font-weight:700;font-size:.66rem;padding:4px 9px;border-radius:20px;background:var(--c);color:var(--banco);white-space:nowrap;transition:background .4s}
+.toast{position:absolute;left:12px;right:12px;top:12px;background:var(--blanc);border-radius:14px;padding:10px 12px;box-shadow:0 12px 30px -12px rgba(0,0,0,.35);display:flex;gap:10px;align-items:center;font-size:.72rem;color:var(--encre);transform:translateY(-130%);transition:transform .6s var(--ease)}
+.toast.vu{transform:none}
+.toast i{width:26px;height:26px;border-radius:8px;background:var(--lavande);flex:none}
+.toast b{font-family:var(--display);color:var(--banco);display:block;font-size:.75rem}
+
+/* Abatta Village */
+.abatta{padding-block:0}
+.abatta .visuel{position:relative;border-radius:26px;overflow:hidden;aspect-ratio:3/2;max-height:78vh;width:100%}
+.abatta .visuel img{width:100%;height:100%;object-fit:cover}
+.abatta .sur{position:absolute;left:2.6%;width:68.6%;top:46%;height:22%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(4px,1vw,12px)}
+.abatta .sur .logo{font-size:clamp(9px,1.6vw,20px)}
+.abatta .sur .res{font-family:var(--display);color:var(--banco);font-weight:700;font-size:clamp(.5rem,1vw,.9rem);letter-spacing:.3em;text-transform:uppercase}
+.abatta .legende{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:end;margin-top:28px}
+.abatta .tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.tag{font-family:var(--display);font-weight:600;font-size:.82rem;padding:8px 14px;border-radius:30px;background:var(--c,var(--sable));color:var(--banco)}
+
+/* contact */
+.contact .grid{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(32px,6vw,80px)}
+.contact .col{display:flex;flex-direction:column;gap:22px}
+.coord{display:grid;gap:12px;font-family:var(--mono);font-size:.9rem;color:var(--encre)}
+.coord div{display:grid;grid-template-columns:110px 1fr;gap:12px;border-top:1px solid var(--filet);padding-top:12px}
+.coord span:first-child{color:var(--encre-2);font-family:var(--display);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase}
+form{background:var(--blanc);border:1px solid var(--filet);border-radius:0 30px 0 30px;padding:clamp(22px,4vw,40px);display:grid;grid-template-columns:1fr 1fr;gap:16px}
+form .full{grid-column:1/-1}
+label{display:flex;flex-direction:column;gap:6px;font-family:var(--display);font-weight:600;font-size:.82rem;color:var(--banco)}
+input,select,textarea{font:inherit;font-family:var(--texte);font-weight:400;font-size:.95rem;color:var(--encre);background:var(--papier);border:1.5px solid var(--filet);border-radius:12px;padding:12px 14px;transition:border-color .2s,background .2s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--banco);background:var(--blanc)}
+textarea{min-height:110px;resize:vertical}
+.besoins{display:flex;gap:8px;flex-wrap:wrap}
+.besoins input{position:absolute;opacity:0;pointer-events:none}
+.besoins label{flex-direction:row;cursor:pointer}
+.besoins label span{padding:8px 14px;border-radius:30px;background:var(--papier);border:1.5px solid var(--filet);font-weight:600;transition:all .25s}
+.besoins input:checked + span{background:var(--c);border-color:var(--c)}
+.besoins input:focus-visible + span{outline:3px solid var(--citron);outline-offset:2px}
+.ok{grid-column:1/-1;background:var(--citron);color:var(--banco);border-radius:12px;padding:14px 16px;font-family:var(--display);font-weight:600;font-size:.9rem}
+.err{grid-column:1/-1;color:#A3412A;font-size:.85rem}
+
+/* pied */
+footer{background:var(--banco);color:rgba(255,255,255,.75);padding-block:0 32px}
+footer .bandef{height:40px;background:url("motifs/motif-patchwork-banco.svg") 0 0/40px auto;margin-bottom:48px;animation:glisse 30s linear infinite}
+@keyframes glisse{to{background-position:400px 0}}
+footer .grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:var(--gap);align-items:start}
+footer h4{font-family:var(--display);color:var(--blanc);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;margin:0 0 12px}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:.92rem}
+footer a{text-decoration:none}
+footer a:hover{color:var(--citron)}
+footer .bas{margin-top:48px;padding-top:20px;border-top:1px solid rgba(255,255,255,.14);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.8rem}
+
+@media (max-width:980px){
+  .hero .grid,.manifeste .grid,.contact .grid,.services .tete,.parcours .tete,.abatta .legende{grid-template-columns:1fr}
+  .stage{justify-self:center}
+  .cartes{grid-template-columns:repeat(2,1fr)}
+  .etapes{grid-template-columns:1fr;gap:22px}
+  .etapes svg.couture{display:none}
+  .etape{flex-direction:row;gap:16px}
+  .etape .n{flex:none}
+  .appli .grid{grid-template-columns:1fr}
+  .phone{justify-self:center}
+  .cle-img{grid-template-columns:1fr}
+  .equation{grid-template-columns:1fr}
+  footer .grid{grid-template-columns:1fr}
+  .abatta .tags{justify-content:flex-start}
+}
+@media (max-width:560px){
+  .cartes{grid-template-columns:1fr}
+  .carte{min-height:0}
+  form{grid-template-columns:1fr}
+  .anecdote{grid-template-columns:1fr}
+  .coord div{grid-template-columns:1fr;gap:2px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .surligne{background-size:100% 100%}
+  .js .rv:not(.in){transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="sym" viewBox="0 0 100 100">
+      <path style="fill:var(--p1)" d="M44 44H0A44 44 0 0 1 44 0Z"/>
+      <path style="fill:var(--p2)" d="M66 0H90A10 10 0 0 1 100 10V34A10 10 0 0 1 90 44H66A10 10 0 0 1 56 34V10A10 10 0 0 1 66 0Z"/>
+      <path style="fill:var(--p3)" d="M10 56H34A10 10 0 0 1 44 66V90A10 10 0 0 1 34 100H10A10 10 0 0 1 0 90V66A10 10 0 0 1 10 56Z"/>
+      <path style="fill:var(--p4)" d="M56 56H100A44 44 0 0 1 56 100Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header id="haut">
+  <nav class="wrap nav" aria-label="Navigation principale">
+    <a class="logo" href="#accueil" aria-label="N’ZASSA Properties — accueil">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><path style="fill:var(--p1)" d="M44 44H0A44 44 0 0 1 44 0Z"/><path style="fill:var(--p2)" d="M66 0H90A10 10 0 0 1 100 10V34A10 10 0 0 1 90 44H66A10 10 0 0 1 56 34V10A10 10 0 0 1 66 0Z"/><path style="fill:var(--p3)" d="M10 56H34A10 10 0 0 1 44 66V90A10 10 0 0 1 34 100H10A10 10 0 0 1 0 90V66A10 10 0 0 1 10 56Z"/><path style="fill:var(--p4)" d="M56 56H100A44 44 0 0 1 56 100Z"/></svg>
+      <span class="wm"><span class="nz">n’zassa</span><span class="prop">PROPERTIES</span></span>
+    </a>
+    <ul id="menu">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#approche">Notre approche</a></li>
+      <li><a href="#cle-en-main">Clé en main</a></li>
+      <li><a href="#appli">L’application</a></li>
+      <li><a href="#abatta">Abatta Village</a></li>
+    </ul>
+    <a class="btn plein" href="#contact">Nous contacter <span class="fl">→</span></a>
+    <button class="burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<main>
+<!-- HÉROS -->
+<section class="hero" id="accueil">
+  <div class="wrap grid">
+    <div class="txt">
+      <span class="eyebrow">Syndic · Gestion · Conciergerie — Abidjan</span>
+      <h1><span class="l"><span>Habiter</span></span><span class="l"><span><span class="surligne">autrement.</span></span></span><span class="l"><span>Gérer</span></span><span class="l"><span>autrement.</span></span></h1>
+      <p class="lead">Des appartements clés en main et des copropriétés qui tiennent dans la durée : un règlement fort, des règles de vie claires et une équipe présente sur place, jusqu’au bout du bout.</p>
+      <div class="ctas">
+        <a class="btn plein" href="#services">Découvrir nos services <span class="fl">→</span></a>
+        <a class="btn clair" href="#approche">Notre approche</a>
+      </div>
+      <div class="note"><span><b>4</b> métiers</span><span><b>1</b> interlocuteur</span><span>Équipe sur place à Abidjan</span></div>
+    </div>
+    <div class="stage" id="stage" aria-label="Patchwork N’zassa : résidence, intérieur, concierge et motifs de pagne">
+      <div class="fil" aria-hidden="true"></div>
+      <div class="patch" id="patch">
+        <div class="pc a"><img src="img/01-residence.jpg" alt="Résidence contemporaine à Cocody aux balcons végétalisés"></div>
+        <div class="pc b"><span>Locatif</span></div>
+        <div class="pc c" aria-hidden="true"></div>
+        <div class="pc d"><img src="img/05-interieur.jpg" alt="Salon d’un appartement livré clé en main"></div>
+        <div class="pc e" aria-hidden="true"></div>
+        <div class="pc f" aria-hidden="true"></div>
+        <div class="pc g"><img src="img/03-concierge.jpg" alt="Concierge N’ZASSA à l’accueil d’une résidence"></div>
+        <div class="pc h"><b>Plusieurs tissus, un seul pagne.</b><small>N’ZASSA · depuis Abidjan</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BANDEAU -->
+<div class="bande" aria-hidden="true">
+  <div class="rail" id="rail">
+    <div class="it"><i style="--c:var(--terre);border-radius:4px"></i>Gestion locative</div>
+    <div class="it"><i style="--c:var(--lagune);border-radius:4px"></i>Gestion immobilière</div>
+    <div class="it"><i style="--c:var(--citron);border-radius:100% 0 0 0"></i>Syndic de copropriété</div>
+    <div class="it"><i style="--c:var(--lavande);border-radius:0 0 100% 0"></i>Conciergerie</div>
+    <div class="it"><i style="--c:var(--blanc);border-radius:4px"></i>Appartements clés en main</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="tete">
+      <div style="display:flex;flex-direction:column;gap:16px"><span class="eyebrow">Nos métiers</span><h2>Quatre pièces, un seul service.</h2></div>
+      <p class="lead">Chaque métier est une pièce du pagne. Ensemble, ils couvrent toute la vie d’un bien : de la remise des clés au quotidien de l’immeuble.</p>
+    </div>
+    <div class="cartes">
+      <article class="carte rv" style="--c:var(--terre)"><span class="code">01</span><div class="piece" style="border-radius:12px"></div><h3>Gestion locative</h3><p>Nous louons votre bien et nous nous en occupons comme du nôtre.</p><ul><li>Recherche et sélection des locataires</li><li>Baux, états des lieux, quittances</li><li>Encaissement et suivi des impayés</li></ul></article>
+      <article class="carte rv" style="--c:var(--lagune);transition-delay:.08s"><span class="code">02</span><div class="piece" style="border-radius:12px"></div><h3>Gestion immobilière</h3><p>Votre patrimoine entretenu, valorisé et suivi avec des chiffres clairs.</p><ul><li>Entretien planifié et travaux</li><li>Suivi des prestataires</li><li>Reporting régulier aux propriétaires</li></ul></article>
+      <article class="carte rv" style="--c:var(--citron);transition-delay:.16s"><span class="code">03</span><div class="piece" style="border-radius:100% 0 0 0"></div><h3>Syndic de copropriété</h3><p>Un règlement fort, appliqué et expliqué, pour des immeubles qui durent.</p><ul><li>Assemblées générales et PV</li><li>Budget, appels de fonds, comptes</li><li>Parties communes et sécurité</li></ul></article>
+      <article class="carte rv" style="--c:var(--lavande);transition-delay:.24s"><span class="code">04</span><div class="piece" style="border-radius:0 0 100% 0"></div><h3>Conciergerie</h3><p>Une présence au quotidien, pour les résidents comme pour les propriétaires.</p><ul><li>Accueil et remise des clés</li><li>Ménage, colis, petites interventions</li><li>Services à la demande</li></ul></article>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTE -->
+<section class="manifeste on-dark" id="approche">
+  <div class="fond" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="grid">
+      <div class="col rv">
+        <span class="eyebrow">Notre approche</span>
+        <h2>Plusieurs tissus.<br><em>Un seul pagne.</em></h2>
+        <p class="lead">Une copropriété, c’est des propriétaires différents, un même immeuble et des règles communes qui tiennent l’ensemble. C’est exactement ce qu’est un N’zassa.</p>
+        <p>N’ZASSA Properties prolonge une vision d’architecte-développeur : concevoir des immeubles pour la vie africaine, puis les faire vivre avec un règlement de copropriété fort et contraignant, des règles de vie qui préservent l’harmonie et la valeur des biens qu’on achète.</p>
+        <dl class="def"><dt>n’zassa</dt><dd>Pagne patchwork ivoirien, fait de chutes de tissus différents cousues ensemble. L’assemblage comme force.</dd></dl>
+      </div>
+      <figure class="pagne rv" style="margin:0"><img id="pagneImg" src="img/02-pagne-nzassa.jpg" alt="Pagne patchwork N’zassa en tissus wax"><figcaption>Le N’zassa — l’assemblage qui fait tenir l’ensemble</figcaption></figure>
+    </div>
+    <div class="equation">
+      <div class="rv"><span class="k">+ la vision</span><h3>Architecte-développeur</h3><p>Des immeubles pensés dès la conception pour être bien gérés, par des gens qui connaissent chaque plan.</p></div>
+      <div class="rv" style="transition-delay:.08s"><span class="k">+ l’ancrage</span><h3>Urbanisme et usages africains</h3><p>Nos manières d’habiter, de cuisiner, de recevoir. On s’inspire des modèles existants sans copier la France.</p></div>
+      <div class="rv" style="transition-delay:.16s"><span class="k">+ la méthode</span><h3>Rigueur internationale</h3><p>Des pratiques éprouvées en Afrique du Sud, au Canada et dans les pays nordiques : structurées, mesurables, innovantes.</p></div>
+    </div>
+    <div class="anecdote rv"><b>Pourquoi c’est africain</b><span>Sols et plafonds renforcés pour qu’on puisse piler chez soi, mais pas d’espace grillades pour préserver la quiétude de tous.</span></div>
+  </div>
+</section>
+
+<!-- CLÉ EN MAIN -->
+<section class="parcours" id="cle-en-main">
+  <div class="wrap">
+    <div class="tete">
+      <div style="display:flex;flex-direction:column;gap:16px"><span class="eyebrow">Clé en main</span><h2>Présents jusqu’au bout du bout.</h2></div>
+      <p class="lead">Du jour de la livraison à la vie quotidienne de l’immeuble, vous gardez le même interlocuteur.</p>
+    </div>
+    <ol class="etapes" id="etapes">
+      <svg class="couture" viewBox="0 0 1000 4" preserveAspectRatio="none" aria-hidden="true"><line class="trace" x1="0" y1="2" x2="1000" y2="2"/><line class="masque" id="masque" x1="0" y1="2" x2="1000" y2="2" style="stroke-dasharray:1000;stroke-dashoffset:0"/></svg>
+      <li class="etape"><span class="n">1</span><div><h3>Remise des clés</h3><p>État des lieux, réserves levées, appartement prêt à vivre.</p></div></li>
+      <li class="etape"><span class="n">2</span><div><h3>Mise en location</h3><p>Annonce, visites, sélection du locataire, bail signé.</p></div></li>
+      <li class="etape"><span class="n">3</span><div><h3>Gestion au quotidien</h3><p>Loyers encaissés, entretien suivi, propriétaire informé.</p></div></li>
+      <li class="etape"><span class="n">4</span><div><h3>Vie de la copropriété</h3><p>Règlement appliqué, AG tenues, budget maîtrisé.</p></div></li>
+      <li class="etape"><span class="n">5</span><div><h3>Conciergerie</h3><p>Accueil, services et petites interventions pour les résidents.</p></div></li>
+    </ol>
+    <div class="cle-img rv">
+      <img src="img/04-cles.jpg" alt="Remise des clés avec un porte-clés vert citron">
+      <div class="txt"><b>Un seul interlocuteur, une équipe sur place.</b><p>Nous comprenons les problématiques locales parce que nous sommes à Abidjan. Quand quelque chose ne va pas, quelqu’un se déplace.</p><a class="btn plein" href="#contact" style="align-self:flex-start">Parler à l’équipe <span class="fl">→</span></a></div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLICATION -->
+<section class="appli" id="appli">
+  <div class="wrap grid">
+    <div class="col rv">
+      <span class="eyebrow">L’application</span>
+      <h2>Votre copropriété, dans votre poche.</h2>
+      <p class="lead">Charges, demandes d’intervention, assemblées générales : tout se suit en temps réel, avec des statuts clairs.</p>
+    </div>
+    <div class="phone" aria-label="Aperçu de l’application copropriétaire (exemple)">
+      <div class="screen">
+        <div class="toast" id="toast"><i></i><div><b>Colis à l’accueil</b>La conciergerie a réceptionné un colis pour vous.</div></div>
+        <div class="top">
+          <span class="logo blanc"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#sym"/></svg><span class="wm"><span class="nz">n’zassa</span></span></span>
+          <span class="hi">Bonjour Aya</span>
+          <div class="solde"><small>Charges T4 — Abatta Village, lot B-12</small><b id="solde">130 000 FCFA</b></div>
+        </div>
+        <div class="tickets" id="tickets">
+          <div class="tk"><div><b>Fuite parking</b><span>Technicien le 14/10</span></div><span class="chip" style="--c:var(--terre)">En cours</span></div>
+          <div class="tk"><div><b>AG annuelle</b><span>12 nov. · 18 h</span></div><span class="chip" style="--c:var(--lagune)">Planifiée</span></div>
+          <div class="tk"><div><b>Charges T3</b><span>Payées le 02/09</span></div><span class="chip" style="--c:var(--citron)">Réglé</span></div>
+          <div class="tk"><div><b>Ascenseur B</b><span>Contrôle annuel</span></div><span class="chip" style="--c:var(--lagune)">Planifiée</span></div>
+        </div>
+      </div>
+    </div>
+    <ul class="feats rv">
+      <li><i style="--c:var(--citron);border-radius:100% 10px 10px 10px"></i><div><b>Charges et appels de fonds</b><span>Montants, échéances et historique, lot par lot.</span></div></li>
+      <li><i style="--c:var(--terre)"></i><div><b>Demandes d’intervention</b><span>Signalez, suivez, notez. Chaque demande a un statut.</span></div></li>
+      <li><i style="--c:var(--lagune)"></i><div><b>Assemblées générales</b><span>Convocations, ordre du jour et PV au même endroit.</span></div></li>
+      <li><i style="--c:var(--lavande);border-radius:10px 10px 100% 10px"></i><div><b>Conciergerie</b><span>Colis, clés, services : vous êtes prévenu tout de suite.</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ABATTA VILLAGE -->
+<section class="abatta" id="abatta" style="padding-block:clamp(64px,9vw,120px)">
+  <div class="wrap">
+    <div class="visuel rv">
+      <img id="abattaImg" src="img/13-entree-abatta.jpg" alt="Mur d’entrée d’Abatta Village avec le logo N’ZASSA Properties">
+      <div class="sur">
+        <span class="logo"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#sym"/></svg><span class="wm"><span class="nz">n’zassa</span><span class="prop">PROPERTIES</span></span></span>
+        <span class="res">Abatta Village</span>
+      </div>
+    </div>
+    <div class="legende">
+      <div style="display:flex;flex-direction:column;gap:14px"><span class="eyebrow">Résidence gérée</span><h2>Abatta Village.</h2><p>Une résidence pensée et gérée selon nos règles : parties communes entretenues, règlement appliqué, conciergerie à l’entrée.</p></div>
+      <div class="tags"><span class="tag" style="--c:var(--citron)">Syndic</span><span class="tag" style="--c:var(--lavande)">Conciergerie</span><span class="tag" style="--c:var(--terre)">Gestion locative</span><span class="tag" style="--c:var(--lagune)">Gestion immobilière</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact" style="background:var(--sable)">
+  <div class="wrap grid">
+    <div class="col rv">
+      <span class="eyebrow">Contact</span>
+      <h2>Parlons de votre bien.</h2>
+      <p class="lead">Propriétaire, conseil syndical ou promoteur : dites-nous ce dont vous avez besoin, nous revenons vers vous sous 48 h.</p>
+      <div class="coord">
+        <div><span>Adresse</span><span>Cocody, Abidjan — Côte d’Ivoire</span></div>
+        <div><span>Courriel</span><span>contact@nzassa.ci</span></div>
+        <div><span>Téléphone</span><span>+225 07 00 00 00 00</span></div>
+      </div>
+      <p style="font-size:.8rem">Coordonnées d’exemple, à remplacer par les coordonnées officielles.</p>
+    </div>
+    <form id="form" novalidate>
+      <label>Nom complet<input id="f-nom" name="nom" autocomplete="name" placeholder="Natasha Delage"></label>
+      <label>Téléphone<input id="f-tel" name="tel" autocomplete="tel" placeholder="+225 …"></label>
+      <label class="full">Courriel<input id="f-mail" name="mail" type="email" autocomplete="email" placeholder="vous@exemple.ci"></label>
+      <div class="full" style="display:flex;flex-direction:column;gap:8px"><span style="font-family:var(--display);font-weight:600;font-size:.82rem;color:var(--banco)">Votre besoin</span>
+        <div class="besoins">
+          <label style="--c:var(--terre)"><input type="checkbox" id="b-loc" name="besoin" value="Gestion locative"><span>Gestion locative</span></label>
+          <label style="--c:var(--lagune)"><input type="checkbox" id="b-imm" name="besoin" value="Gestion immobilière"><span>Gestion immobilière</span></label>
+          <label style="--c:var(--citron)"><input type="checkbox" id="b-syn" name="besoin" value="Syndic" checked><span>Syndic</span></label>
+          <label style="--c:var(--lavande)"><input type="checkbox" id="b-con" name="besoin" value="Conciergerie"><span>Conciergerie</span></label>
+        </div>
+      </div>
+      <label class="full">Message<textarea id="f-msg" name="msg" placeholder="Résidence, nombre de lots, date de livraison…"></textarea></label>
+      <p class="err" id="err" hidden></p>
+      <p class="ok" id="ok" hidden></p>
+      <button class="btn plein full" type="submit" style="justify-self:start">Préparer ma demande <span class="fl">→</span></button>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer class="on-dark">
+  <div class="bandef" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="grid">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <span class="logo blanc" style="font-size:18px"><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#sym"/></svg><span class="wm"><span class="nz">n’zassa</span><span class="prop">PROPERTIES</span></span></span>
+        <p style="color:rgba(255,255,255,.7)">Habiter autrement. Gérer autrement.<br>Gestion locative, gestion immobilière, syndic de copropriété et conciergerie à Abidjan.</p>
+      </div>
+      <div><h4>Services</h4><ul><li><a href="#services">Gestion locative</a></li><li><a href="#services">Gestion immobilière</a></li><li><a href="#services">Syndic de copropriété</a></li><li><a href="#services">Conciergerie</a></li></ul></div>
+      <div><h4>N’ZASSA</h4><ul><li><a href="#approche">Notre approche</a></li><li><a href="#cle-en-main">Clé en main</a></li><li><a href="#appli">L’application</a></li><li><a href="#contact">Contact</a></li></ul></div>
+    </div>
+    <div class="bas"><span>© 2026 N’ZASSA Properties — Abidjan, Côte d’Ivoire</span><a href="#accueil">Retour en haut ↑</a></div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const reduit = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.documentElement.classList.add("js");
+
+  // En-tête : filet au défilement + lien actif
+  const header = document.getElementById("haut");
+  const liens = [...document.querySelectorAll(".nav ul a")];
+  const sections = liens.map(a => document.querySelector(a.getAttribute("href")));
+  // Menu mobile
+  const nav = document.querySelector(".nav"), burger = document.getElementById("burger");
+  burger.addEventListener("click", () => {
+    const o = nav.classList.toggle("ouvert");
+    burger.setAttribute("aria-expanded", o);
+    burger.setAttribute("aria-label", o ? "Fermer le menu" : "Ouvrir le menu");
+  });
+  liens.forEach(a => a.addEventListener("click", () => { nav.classList.remove("ouvert"); burger.setAttribute("aria-expanded", false); }));
+
+  // Héros : les pièces arrivent de positions dispersées puis se cousent
+  const pieces = [...document.querySelectorAll(".pc")];
+  pieces.forEach((p, i) => {
+    const ang = (i / pieces.length) * Math.PI * 2 + Math.random() * .6;
+    const dist = 120 + Math.random() * 90;
+    p.style.setProperty("--dx", Math.cos(ang) * dist + "px");
+    p.style.setProperty("--dy", Math.sin(ang) * dist + "px");
+    p.style.setProperty("--r", (Math.random() * 30 - 15).toFixed(1) + "deg");
+    p.style.setProperty("--d", (.15 + i * .08).toFixed(2) + "s");
+  });
+  // Parallaxe douce au pointeur
+  const stage = document.getElementById("stage"), patch = document.getElementById("patch");
+  if (!reduit && matchMedia("(pointer:fine)").matches) {
+    stage.addEventListener("pointermove", e => {
+      const r = stage.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+      patch.style.transform = `perspective(900px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`;
+      pieces.forEach((p, i) => { const img = p.querySelector("img"); if (img) img.style.transform = `scale(1.1) translate(${x * -10}px, ${y * -10}px)`; });
+    });
+    stage.addEventListener("pointerleave", () => { patch.style.transform = ""; pieces.forEach(p => { const img = p.querySelector("img"); if (img) img.style.transform = ""; }); });
+  }
+
+  // Bandeau défilant : on double le contenu pour une boucle continue
+  const rail = document.getElementById("rail");
+  rail.innerHTML += rail.innerHTML;
+
+  // Révélations au défilement
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px" });
+  document.querySelectorAll(".rv").forEach(el => io.observe(el));
+
+  // Parcours : la couture se dessine avec le défilement, les étapes se valident
+  const etapes = document.getElementById("etapes"), masque = document.getElementById("masque");
+  const items = [...etapes.querySelectorAll(".etape")];
+  const pagne = document.getElementById("pagneImg"), abatta = document.getElementById("abattaImg");
+  let tick = false;
+  function surDefilement() {
+    tick = false;
+    header.classList.toggle("scrolled", scrollY > 8);
+    const vh = innerHeight;
+    // lien actif
+    let actif = -1;
+    sections.forEach((s, i) => { if (s && s.getBoundingClientRect().top < vh * .4) actif = i; });
+    liens.forEach((a, i) => a.classList.toggle("actif", i === actif));
+    // couture
+    const r = etapes.getBoundingClientRect();
+    const prog = Math.min(1, Math.max(0, (vh * .85 - r.top) / (r.height + vh * .35)));
+    masque.style.strokeDashoffset = reduit ? 1000 : -prog * 1000;
+    items.forEach((it, i) => it.classList.toggle("fait", reduit || prog >= (i + .5) / items.length));
+    if (!reduit) {
+      // parallaxe des photos
+      const p = pagne.getBoundingClientRect();
+      pagne.style.transform = `translateY(${((p.top + p.height / 2) / vh - .5) * -8}%)`;
+      const a = abatta.getBoundingClientRect();
+      abatta.style.transform = `scale(${1 + Math.max(0, Math.min(.08, (vh - a.top) / vh * .05))})`;
+    }
+  }
+  addEventListener("scroll", () => { if (!tick) { tick = true; requestAnimationFrame(surDefilement); } }, { passive: true });
+  addEventListener("resize", surDefilement);
+  surDefilement();
+
+  // Application : les statuts évoluent comme dans la vraie vie (données d'exemple)
+  const tk = [...document.querySelectorAll("#tickets .tk")];
+  const etats = [
+    [0, "Réglé", "var(--citron)", "Réparée le 14/10"],
+    [3, "En cours", "var(--terre)", "Technicien sur place"],
+    [3, "Réglé", "var(--citron)", "Contrôle validé"],
+    [0, "En cours", "var(--terre)", "Technicien le 14/10"],
+    [3, "Planifiée", "var(--lagune)", "Contrôle annuel"],
+  ];
+  const toast = document.getElementById("toast");
+  let k = 0;
+  if (!reduit) setInterval(() => {
+    const [i, txt, c, sub] = etats[k % etats.length];
+    const t = tk[i], chip = t.querySelector(".chip");
+    t.classList.add("bouge");
+    setTimeout(() => { chip.textContent = txt; chip.style.setProperty("--c", c); t.querySelector("span").textContent = sub; }, 250);
+    setTimeout(() => t.classList.remove("bouge"), 700);
+    if (k % 3 === 1) { toast.classList.add("vu"); setTimeout(() => toast.classList.remove("vu"), 2600); }
+    k++;
+  }, 2600);
+
+  // Formulaire : démonstration, rien n'est envoyé
+  const form = document.getElementById("form"), ok = document.getElementById("ok"), err = document.getElementById("err");
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const nom = form.nom.value.trim(), mail = form.mail.value.trim(), tel = form.tel.value.trim();
+    const besoins = [...form.querySelectorAll('input[name="besoin"]:checked')].map(b => b.value);
+    ok.hidden = true;
+    if (!nom) { err.textContent = "Indiquez votre nom pour que nous sachions à qui répondre."; err.hidden = false; form.nom.focus(); return; }
+    if (!mail && !tel) { err.textContent = "Laissez un courriel ou un numéro de téléphone pour être recontacté."; err.hidden = false; form.mail.focus(); return; }
+    if (mail && !/^\S+@\S+\.\S+$/.test(mail)) { err.textContent = "Le courriel semble incomplet : vérifiez le format (vous@exemple.ci)."; err.hidden = false; form.mail.focus(); return; }
+    err.hidden = true;
+    ok.textContent = `Merci ${nom.split(" ")[0]}, votre demande est prête (${besoins.join(", ") || "besoin à préciser"}). Ceci est une maquette : aucune donnée n’est envoyée.`;
+    ok.hidden = false;
+  });
+})();
+</script>
+
+</body>
+</html>
